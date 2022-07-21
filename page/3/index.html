@@ -132,7 +132,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -168,6 +168,175 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.zekehypersus.top/2022/02/03/packages%20and%20modules/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zeke">
+      <meta itemprop="description" content="现实踢了梦想一脚并且让他滚蛋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zeke's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/02/03/packages%20and%20modules/" class="post-title-link" itemprop="url">packages and modules</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-02-03 13:26:18 / Modified: 13:28:47" itemprop="dateCreated datePublished" datetime="2022-02-03T13:26:18+08:00">2022-02-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/golang/" itemprop="url" rel="index"><span itemprop="name">golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>modules: every module contains a <code>go.mod</code> file in which the module name is declared and <code>xxxx.go</code> file in which package name is declared.</p>
+<p><strong>Q:</strong> It seems that a module could only contain a single package and the package name should be maintained the same as the basename of module name ?</p>
+<p><strong>A:</strong> Effectively, golang is able to import different packages in the same module (take local module <code>example.com/greetings</code> as an example)</p>
+<ul>
+<li>First, in local directory <code>greetings</code>, a <code>go.mod</code> is created by typing the command <code>go mod init example.com/greetings</code> so we get the module name <code>example.com/greetings</code>.</li>
+<li>Now if we want to import 2 different packages in the same module <code>example.com/greetings</code> , we need 2 different <code>.go</code> files in the first place and then <strong>create an exclusive folder for each of them</strong>, the name of the folder doesn't really matter since it was only used for locating the path of the package and the <code>.go</code>file name doesn't really matter. Given we had 2 packages naming <code>package1</code> and <code>package2</code> declared in 2 files <code>xxxx1.go</code> and <code>xxxx2.go</code> . Create <code>folder1</code> in <code>greetings</code> and move file <code>xxxx1.go</code> into it and <code>xxxx2.go</code> into <code>folder2</code>.</li>
+<li>If we want to import the abovementioned package <code>package1</code> and <code>package2</code> in an external file. Write <code>import "example.com/greetings/xxxx1"</code> to import <code>package1</code> and the same way to import <code>package2</code></li>
+<li>run <code>go mod tidy</code> in the caller directory</li>
+</ul>
+<p>Conclusion: while importing custom local or online packages in golang, we need to specify a path that contains 1 package ONLY and use the declared package name to access its functions</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.zekehypersus.top/2022/02/02/LateX%20Cheatsheet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zeke">
+      <meta itemprop="description" content="现实踢了梦想一脚并且让他滚蛋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zeke's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/02/02/LateX%20Cheatsheet/" class="post-title-link" itemprop="url">LateX Cheatsheet</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-02-02 13:31:30" itemprop="dateCreated datePublished" datetime="2022-02-02T13:31:30+08:00">2022-02-02</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2022-02-03 13:29:59" itemprop="dateModified" datetime="2022-02-03T13:29:59+08:00">2022-02-03</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LateX/" itemprop="url" rel="index"><span itemprop="name">LateX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="preamble">Preamble</h2>
+<h3 id="documentclassoptionsparameters"><code>\documentclass[options]&#123;parameters&#125;</code></h3>
+<h4 id="general-options">general options:</h4>
+<ul>
+<li>fontsize</li>
+</ul>
+<h2 id="main-document">Main document</h2>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1109,231 +1278,6 @@ value=(-1)^{b_{15}}\cdot 2^{(b_{14}b_{13}...b_{10})_2 -15}\cdot (1+\sum_{i=1}^{1
 <h3 id="线性空间滤波">线性空间滤波</h3>
 <p>假设该正方形/长方形区域为<span class="math inline">\(m\times n\)</span>，该小区域（图上的小方块）被称为<strong>核/滤波器/掩模/窗口</strong>，线性空间滤波中又称<strong>卷积核</strong>，以下用卷积核称呼</p>
 <p>卷积核的<span class="math inline">\(m\times n\)</span>每一个小格子上对应有一个权重系数，<span class="math inline">\(m=2a+1,n=2b+1\)</span>即均为奇数，且最小的有意义尺寸为<span class="math inline">\(3\times 3\)</span>（直观地看，偶数卷积核找不到中心点）</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.zekehypersus.top/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Zeke">
-      <meta itemprop="description" content="现实踢了梦想一脚并且让他滚蛋">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zeke's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/" class="post-title-link" itemprop="url">感知机</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-08-12 20:22:32" itemprop="dateCreated datePublished" datetime="2021-08-12T20:22:32+08:00">2021-08-12</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-08-31 09:57:49" itemprop="dateModified" datetime="2021-08-31T09:57:49+08:00">2021-08-31</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="数据集的线性可分性">数据集的线性可分性：</h2>
-<p>感知机（perceptron）模型只能在特征空间中构造一个线性超平面，因此只有当数据集为<strong>线性可分</strong>时才能达到较好分类的效果，而且由于构造的是超平面，感知机只能解决二分类问题。感知机属于监督学习的范畴。</p>
-<p><img src="/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/线性可分.png" /></p>
-<h2 id="感知机学习策略">感知机学习策略：</h2>
-<p>选择<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span>使得构造的超平面<span class="math inline">\(\omega x+b=0\)</span>能够较好地分开两类点，具体体现为最小化损失函数</p>
-<p>损失函数选择：</p>
-<ol type="1">
-<li><p>函数间距： $$ |x_0+b| $$ 当选择用函数间距作为损失函数时，感知机在优化过程中可能将<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span>等比例缩放，最终优化结果为一组很小的<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span></p></li>
-<li><p>几何间距： $$ |x_0+b| $$ 选用几何间距作为loss函数以避免使用函数间距出现的等比例缩放优化问题</p></li>
-</ol>
-<h2 id="感知机算法步骤">感知机算法步骤：</h2>
-<ol type="1">
-<li><p>任选超平面<span class="math inline">\(\omega_0\)</span>和<span class="math inline">\(b_0\)</span></p></li>
-<li><p>构造损失函数： $$ L(,b)=-_{x_i M}y_i(wx_i+b) $$ 其中M代表误分类点的集合，这里采用了函数间隔作为损失函数是因为感知机是一个误分类驱动的模型，其最终优化目标为M中没有一个点，此时则模型构建完成。因此会出现：</p></li>
-</ol>
-<ul>
-<li>对于不同的初值<span class="math inline">\(\omega_0\)</span>和<span class="math inline">\(b_0\)</span>最终迭代停止后构建出来的超平面可能不同（有不同的<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span>的终值）</li>
-<li>对于线性不可分的模型，感知机找不到一个超平面使得M中没有一个点，迭代会出现什么情况？</li>
-</ul>
-<ol start="3" type="1">
-<li><p>用梯度下降法</p>
-<p>求偏导： $$ =-_{x_i M}y_i x_i $$</p></li>
-</ol>
-<p>$$ =-_{x_i M}y_i $$</p>
-<ol start="4" type="1">
-<li><p>梯度下降： <span class="math inline">\(\omega \gets \omega+ \eta y_i x_i\)</span> <span class="math inline">\(b \gets b+ \eta y_i\)</span> 其中<span class="math inline">\(\eta\)</span>称为学习率，学习率的选择对于算法的收敛性有很大影响，<span class="math inline">\(\eta\)</span>取值过大可能造成振荡从而发散(数据集线性不可分时也会出现发散)，需要注意的是这里的梯度下降更新<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span>的过程是只要对于当前的<span class="math inline">\(\omega _k\)</span>和<span class="math inline">\(b_k\)</span>存在某一个点(<span class="math inline">\(x_i , y_i\)</span>)被误分类就<strong>立即执行</strong>梯度下降更新，从而每次梯度下降更新过程不需要都遍历训练集的所有样本点</p></li>
-<li><p>感知机结果的收敛性：</p>
-<p>记<span class="math inline">\(\hat \omega=(\omega,b)\)</span> <span class="math inline">\(\hat x=(x^T,1)^T\)</span></p>
-<p>当训练集完全线性可分时存在一个超平面(<span class="math inline">\(\omega_{opt}\)</span>,<span class="math inline">\(b_{opt}\)</span>)使得所有实例被正确分类，此时存在<span class="math inline">\(\gamma\)</span>有<span class="math inline">\(\gamma=min\{y_i (\omega _{opt}x_i+b_{opt})\}\)</span></p>
-<p>令<span class="math inline">\(R=\max||\hat x_i||\)</span></p>
-<p>可以证明误分类次数k满足： $$ k()^2 $$ 因此迭代有限次就可以收敛</p></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.zekehypersus.top/2021/08/05/PCA-for-Anomaly-Detection/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Zeke">
-      <meta itemprop="description" content="现实踢了梦想一脚并且让他滚蛋">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zeke's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/05/PCA-for-Anomaly-Detection/" class="post-title-link" itemprop="url">PCA for Anomaly Detection</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-08-05 15:43:19" itemprop="dateCreated datePublished" datetime="2021-08-05T15:43:19+08:00">2021-08-05</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-08-31 09:58:58" itemprop="dateModified" datetime="2021-08-31T09:58:58+08:00">2021-08-31</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>假设训练集和测试集均为 <span class="math inline">\(X_{n×m}\)</span> 其中n为样本点数，m为特征维度</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/Hypersus/PCA-Anomaly-Detection">代码</a></p>
-<h2 id="pca思想">PCA思想：</h2>
-<p>PCA（Principal Components Analysis）的本质是在对数据集没有任何先验知识的前提下按照累积方差贡献率对训练集<span class="math inline">\(X_{n×m}\)</span> 的m个特征维度进行k次线性组合（每次线性组合的系数向量<span class="math inline">\(p_i\)</span>为(<span class="math inline">\(m \times 1\)</span>)列向量），得到共k个<span class="math inline">\(p_i\)</span>然后拿这k个列向量拼接成负载矩阵<span class="math inline">\(P_{m \times k}\)</span>，得到负载矩阵<span class="math inline">\(P\)</span>后即完成了训练过程，接下来对数据集（训练集或测试集）进行右乘<span class="math inline">\(P\)</span>矩阵的操作，将原数据集<span class="math inline">\(X_{n \times m}\)</span>降维成<span class="math inline">\(T_{n \times k}\)</span>即： $$ T_{n k}=X_{n m} P_{m k} $$ ## PCA降维后进行异常检测：</p>
-<p>PCA实际上将数据集<span class="math inline">\(X_{n×m}\)</span>在原样本<span class="math inline">\(m\)</span>维空间的数据投影到了两个空间，分别为主元空间和残差空间，其中<span class="math inline">\(T_{n \times k}\)</span>即为数据集在主元空间的投影，由于PCA在线性组合的过程中并没有常数项的加入，因此主元空间和原样本空间的原点是重合的，以<span class="math inline">\(m=3,k=2\)</span>即原样本空间为3维特征，主元空间为2维特征为例：</p>
-<p><img src="/2021/08/05/PCA-for-Anomaly-Detection/SPE和T2统计量的物理含义.png" /></p>
-于是可以得到<span class="math inline">\(T^2\)</span>统计量和<span class="math inline">\(SPE\)</span>统计量，其中<span class="math inline">\(T^2\)</span>统计量为样本点在主元空间的投影到原点的马氏距离，SPE统计量（又称Q统计量）为样本点距离主元空间的欧式距离 $$ T_{n k}=X_{n m}P_{m k}=
-<span class="math display">\[\begin{bmatrix}t_1 \\ t_2 \\ . \\ . \\ . \\ t_n \\ \end{bmatrix}\]</span>
-<p>$$</p>
-$$ E_{n m}=X_{n m}-T_{n k}P^T_{k m}=X_{n m} (I_{m m}-P_{m k}P^T_{k m})=
-<span class="math display">\[\begin{bmatrix}e_1 \\ e_2 \\ . \\ . \\ . \\ e_n \\ \end{bmatrix}\]</span>
-<p>$$ 则<span class="math inline">\(T^2\)</span>统计量和<span class="math inline">\(SPE\)</span>统计量可以表示为： $$ T^2_i=t_i t_i^T $$</p>
-<p>$$ SPE_i=e_i x_i^T=x_{1 m} (I_{m m}-P_{m k}P^T_{k m}) x_{m }^T $$</p>
-<h2 id="pca步骤">PCA步骤：</h2>
-<h3 id="训练模型过程"><strong>训练模型过程：</strong></h3>
-<p>训练PCA模型的过程可以采用特征值分解或奇异值分解（SVD）两种方式，以特征值分解为例：</p>
-<ol type="1">
-<li><p>Feature Scaling（零均值归一化）：对于每一个特征（训练集<span class="math inline">\(X_{n×m}\)</span> 的每一列），求列均值<span class="math inline">\(\bar{x}_j\)</span> 和标准差<span class="math inline">\(\sigma_j\)</span> ，对数据集中的每一个元素，执行如下操作进行Feature Scaling $$ x_{ij}=  $$</p></li>
-<li><p>计算协方差矩阵S：经过步骤1后协方差矩阵可以表示为 $$ S=  X^T_{n m}X_{n m} $$ 对协方差矩阵S进行特征值分解 $$ S=V_{m m} V^T_{m m} $$ 其中<span class="math inline">\(\land\)</span> 为对角矩阵，对角线上的值（特征值）按照从大到小排列，V为特征值对应的特征向量，<span class="math inline">\(\land\)</span> 主对角线上的值实际上就是主成分对应的方差，从大到小依次为<span class="math inline">\(\lambda_1\)</span>,<span class="math inline">\(\lambda_2\)</span>,<span class="math inline">\(\lambda_3\)</span>...<span class="math inline">\(\lambda_m\)</span>，之所以为对角阵是因为在PCA的过程中对两两投影方向之间做正交处理</p></li>
-<li><p>取特征向量构成的矩阵<span class="math inline">\(V_{m \times m}\)</span> 的前k个特征向量（k的选取和要求的累计方差贡献率有关），构成PCA的负载矩阵<span class="math inline">\(P_{m \times k}\)</span> ，则由此可以得到原数据集<span class="math inline">\(X_{n×m}\)</span> 在负载矩阵<span class="math inline">\(P_{m \times k}\)</span> 上的投影值<span class="math inline">\(X_{n×m} \cdot P_{m \times k}=T_{n \times k}\)</span> ，至此特征维度由<span class="math inline">\(m\)</span> 降低到了<span class="math inline">\(k\)</span>，实现了线性的特征降维</p></li>
-</ol>
-<h3 id="测试模型过程"><strong>测试模型过程：</strong></h3>
-<ol type="1">
-<li>对于测试集的一条新样本<span class="math inline">\(x_i\)</span> 先用训练过程中得到的均值向量<span class="math inline">\(\bar{x}_j\)</span>和标准差<span class="math inline">\(\sigma_j\)</span>进行归一化操作，具体过程和训练模型中的过程相同</li>
-<li>归一化完成后对该样本右乘负载矩阵<span class="math inline">\(P_{m \times k}\)</span> 得到PCA后的样本<span class="math inline">\(t_{1 \times k}\)</span></li>
-</ol>
-<h3 id="t2统计量计算和控制限选择"><strong><span class="math inline">\(T^2\)</span>统计量计算和控制限选择：</strong></h3>
-<p>设<span class="math inline">\(\land\)</span>的<span class="math inline">\(k\)</span>阶子矩阵为<span class="math inline">\(\sum\)</span>，则样本的<span class="math inline">\(T^2\)</span>统计量即为样本在主元空间的投影到主元空间原点的马氏距离： $$ T<sup>2=x_iPP</sup>Tx^T_i $$ 其中<span class="math inline">\(x_i\)</span>为<span class="math inline">\(1\times m\)</span>向量</p>
-<p>控制限的选取为： $$ T^2_{max}=F_{}(k,n-k) $$ 其中可以改变的量仅为置信度<span class="math inline">\(\alpha\)</span></p>
-<p>F分布的知识具体回顾概统</p>
-<h3 id="spe统计量计算和控制限选择"><strong>SPE统计量计算和控制限选择：</strong></h3>
-<p>SPE统计量是样本在残差空间内的投影（样本在原空间内的欧式距离减去样本在主元空间的欧式距离），实际上就是样本在主元空间的投影距离： $$ SPE=x_ix_i<sup>T-x_iPP</sup>Tx_i<sup>T=x_i(I-PP</sup>T)x_i^T $$ 控制限的选取为： $$ Q_=_1[+1+]^{} $$ 其中： $$ <em>r=</em>{j=k+1}^m _j^r(r=1,2,3) $$</p>
-<p>$$ h_0=1- $$</p>
-<h2 id="pca优缺点分析">PCA优缺点分析：</h2>
-<p>由于使用PCA进行的降维是基于最大化方差对原数据集进行线性组合降维，对于一些特殊的训练集可能出现线性组合降维得到的在主元空间的方差较小，按照总的方差贡献率来选取降维效果不明显，如用d00.csv作为训练集，选取90%累计方差贡献率，用SVD进行PCA，最终特征维度从52降低到了31（如果用特征值分解则主元个数为33，可见用SVD进行PCA的效果比特征值分解更加显著）。为此在线性组合的PCA基础上出现了使用核函数进行非线性投影的KPCA</p>
 
       
     </div>
