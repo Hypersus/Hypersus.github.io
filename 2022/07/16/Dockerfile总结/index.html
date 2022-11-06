@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.zekehypersus.top","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Dockerfile用于指定在使用docker build命令时的相关信息。 从docker build说起 docker build命令根据Dockerfile和context（指定的目录即PATH或URL或-）来构建docker镜像 1docker build [OPTIONS] PATH | URL | - 当使用URL指定context时有三种情况：1. git仓库 2. pre-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dockerfile总结">
+<meta property="og:url" content="https://www.zekehypersus.top/2022/07/16/Dockerfile%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Zeke&#39;s Blog">
+<meta property="og:description" content="Dockerfile用于指定在使用docker build命令时的相关信息。 从docker build说起 docker build命令根据Dockerfile和context（指定的目录即PATH或URL或-）来构建docker镜像 1docker build [OPTIONS] PATH | URL | - 当使用URL指定context时有三种情况：1. git仓库 2. pre-">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-16T06:07:55.890Z">
+<meta property="article:modified_time" content="2022-07-20T16:43:47.346Z">
+<meta property="article:author" content="Zeke">
+<meta property="article:tag" content="None">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.zekehypersus.top/2022/07/16/Dockerfile%E6%80%BB%E7%BB%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.zekehypersus.top/2022/07/16/Dockerfile%E6%80%BB%E7%BB%93/","path":"2022/07/16/Dockerfile总结/","title":"Dockerfile总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Dockerfile总结 | Zeke's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zeke's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep posting!!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8Edocker-build%E8%AF%B4%E8%B5%B7"><span class="nav-number">1.</span> <span class="nav-text">从docker build说起</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git%E4%BB%93%E5%BA%93"><span class="nav-number">1.1.</span> <span class="nav-text">Git仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tarball-contexts"><span class="nav-number">1.2.</span> <span class="nav-text">Tarball contexts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%AF%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">纯文本文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">1.4.</span> <span class="nav-text">例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8path%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">1.4.1.</span> <span class="nav-text">使用PATH构建镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8url%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">1.4.2.</span> <span class="nav-text">使用URL构建镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">1.4.3.</span> <span class="nav-text">使用-构建镜像</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dockerfile%E7%94%A8%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">Dockerfile用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#from%E5%92%8Carg"><span class="nav-number">2.1.</span> <span class="nav-text">FROM和ARG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#run"><span class="nav-number">2.2.</span> <span class="nav-text">RUN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cmd"><span class="nav-number">2.3.</span> <span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#entrypoint"><span class="nav-number">2.4.</span> <span class="nav-text">ENTRYPOINT</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zeke</p>
+  <div class="site-description" itemprop="description">现实踢了梦想一脚并且让他滚蛋</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.zekehypersus.top/2022/07/16/Dockerfile%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zeke">
+      <meta itemprop="description" content="现实踢了梦想一脚并且让他滚蛋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zeke's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Dockerfile总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-07-16 14:07:55" itemprop="dateCreated datePublished" datetime="2022-07-16T14:07:55+08:00">2022-07-16</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2022-07-21 00:43:47" itemprop="dateModified" datetime="2022-07-21T00:43:47+08:00">2022-07-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Dockerfile用于指定在使用<code>docker build</code>命令时的相关信息。</p>
+<h2 id="从docker-build说起">从<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/build/">docker build</a>说起</h2>
+<p><code>docker build</code>命令根据Dockerfile和context（指定的目录即PATH或URL或-）来构建docker镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build [OPTIONS] PATH | URL | -</span><br></pre></td></tr></table></figure>
+<p>当使用URL指定context时有三种情况：1. git仓库 2. pre-packaged tarball contexts 3. 纯文本文件</p>
+<h3 id="git仓库">Git仓库</h3>
+<p>使用git仓库时可以指定branch或tag或remote reference（again这是啥）</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Build Syntax Suffix</th>
+<th style="text-align: left;">Commit Used</th>
+<th style="text-align: left;">Build Context Used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>myrepo.git</code></td>
+<td style="text-align: left;"><code>refs/heads/master</code></td>
+<td style="text-align: left;"><code>/</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>myrepo.git#mytag</code></td>
+<td style="text-align: left;"><code>refs/tags/mytag</code></td>
+<td style="text-align: left;"><code>/</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>myrepo.git#mybranch</code></td>
+<td style="text-align: left;"><code>refs/heads/mybranch</code></td>
+<td style="text-align: left;"><code>/</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>myrepo.git#pull/42/head</code></td>
+<td style="text-align: left;"><code>refs/pull/42/head</code></td>
+<td style="text-align: left;"><code>/</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>myrepo.git#:myfolder</code></td>
+<td style="text-align: left;"><code>refs/heads/master</code></td>
+<td style="text-align: left;"><code>/myfolder</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>myrepo.git#master:myfolder</code></td>
+<td style="text-align: left;"><code>refs/heads/master</code></td>
+<td style="text-align: left;"><code>/myfolder</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>myrepo.git#mytag:myfolder</code></td>
+<td style="text-align: left;"><code>refs/tags/mytag</code></td>
+<td style="text-align: left;"><code>/myfolder</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>myrepo.git#mybranch:myfolder</code></td>
+<td style="text-align: left;"><code>refs/heads/mybranch</code></td>
+<td style="text-align: left;"><code>/myfolder</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tarball-contexts">Tarball contexts</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build http://server/context.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="纯文本文件">纯文本文件</h3>
+<p>即根据指定的<code>Dockerfile</code>运行<code>docker build</code></p>
+<h3 id="例子">例子</h3>
+<h4 id="使用path构建镜像">使用PATH构建镜像</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build .</span><br></pre></td></tr></table></figure>
+<p>该例子中所有本地目录中的文件会被Docker CLI打成tar包传送给Docker daemon</p>
+<h4 id="使用url构建镜像">使用URL构建镜像</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build github.com/creack/docker-firefox</span><br></pre></td></tr></table></figure>
+<p>该例子中使用git clone把对应的仓库克隆到本地，其context具体可见上文中的<code>Git仓库</code>表格</p>
+<h4 id="使用-构建镜像">使用-构建镜像</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build - &lt; Dockerfile</span><br></pre></td></tr></table></figure>
+<p>使用-构建镜像则没有context（即-代表从<code>STDIN</code>读入），在这种情况下<code>Dockerfile</code>中的<code>ADD</code>只有在其指向某个URL时才有效</p>
+<h2 id="dockerfile用法">Dockerfile用法</h2>
+<p><code>docker build</code>命令读取Dockerfile并使用Dockerfile中的指令构建docker镜像，Dockerfile中每一个指令对应docker镜像中的一层。通过<code>docker image history image_id</code>查看。</p>
+<h3 id="from和arg">FROM和ARG</h3>
+<p>Dockerfile中的<code>FROM</code>指令必须在最前面，只有<code>ARG</code>指令可以放在<code>FROM</code>之前，<code>ARG</code>指令用于在build stage外设置变量便于后续书写，语法为<code>ARG VAR_NAME=value</code>，需要注意的一点是，如果要在除了<code>FROM</code>的其他指令中使用该变量，则需要在<code>FROM</code>后增加一句<code>ARG VAR_NAME</code></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ARG</span> VERSION=latest</span><br><span class="line"><span class="keyword">FROM</span> busybox:$VERSION</span><br><span class="line"><span class="keyword">ARG</span> VERSION</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$VERSION</span> &gt; image_version</span></span><br></pre></td></tr></table></figure>
+<h3 id="run">RUN</h3>
+<p>有两种书写形式</p>
+<ul>
+<li><code>RUN &lt;command&gt;</code></li>
+<li><code>RUN ["executable","param1","param2"]</code> (JSON array)</li>
+</ul>
+<p><code>RUN</code>指令执行对应命令并且在当前层上创建一个新层。</p>
+<p>在docker中创建一个新层的开销是很小的（commits in docker is cheap），并且考虑到容器可以镜像中的任意一层为入口进行创建，因此按层堆叠<code>RUN</code>指令（把不同效果的<code>RUN</code>指令写在不同行）可以实现容器的source control</p>
+<h3 id="cmd">CMD</h3>
+<p>有三种书写形式</p>
+<ul>
+<li><code>CMD ["executable","param1","param2"]</code>(exec form and a <strong>preferred form</strong>)</li>
+<li><code>CMD ["param1","param2"]</code></li>
+<li><code>CMD command param1 param2</code>(shell form)</li>
+</ul>
+<p>在一个Dockerfile中只可以存在一条<code>CMD</code>指令（但可以存在多条<code>RUN</code>指令）</p>
+<p><code>CMD</code>指令的<strong>主要作用</strong>是为容器提供defaults（<code>docker run</code>缺省要运行的命令时默认运行的命令），当在<code>CMD</code>中忽略<code>executable</code>时，必须使用<code>ENTRYPOINT</code>指令指定要运行的命令，在这种缺省executable的情况下，必须使用第二种书写形式（其余两种书写形式都包含了executable）</p>
+<p>当用户使用<code>docker run</code>指定要运行的命令时，Dockerfile中由<code>CMD</code>指定的命令会。</p>
+<h3 id="entrypoint">ENTRYPOINT</h3>
+<p>有两种书写形式</p>
+<ul>
+<li><code>ENTRYPOINT ["executable", "param1", "param2"]</code>（exec form）</li>
+<li><code>ENTRYPOINT command param1 param2</code>（shell form）</li>
+</ul>
+<p>:one:当使用<code>exec form</code>的<code>ENTRYPOINT</code>时，所有跟在<code>docker run &lt;image&gt;</code>后面的参数（即[command] [arg...]）会被添加到<code>ENTRYPOINT</code>的命令之后<strong>作为该命令的参数</strong>执行且<code>CMD</code>第二形式指定的参数将不再起作用。使用<code>docker run --entrypoint</code>可以覆盖<code>ENTRYPOINT</code>指令。</p>
+<p>！！举例来说明<strong>“作为该命令的参数”</strong>的意思，书写Dockerfile内容如下</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;top&quot;</span>, <span class="string">&quot;-b&quot;</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;-c&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<p>使用<code>docker build</code>构建镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build . -t top_build:v0.0.0</span><br></pre></td></tr></table></figure>
+<p>使用<code>docker run</code>创建容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm --name <span class="built_in">test</span> top_build:v0.0.0 ps aux</span><br></pre></td></tr></table></figure>
+<p>报错信息如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top: bad pid <span class="string">&#x27;s&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>当我们在bash中执行<code>top ps</code>时，得到相同的报错信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top: bad pid <span class="string">&#x27;s&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>由此，发现这种情况下<code>docker run &lt;image&gt;</code>后面跟着的任何字符都会原模原样的被放在<code>ENRTYPOINT</code>指定的命令后面。</p>
+<p>:two:当使用<code>shell form</code>的<code>ENTRYPOINT</code>时，<code>CMD</code>和<code>docker run</code>指定的参数<strong>均将失效</strong>！此外还有一点，以<code>shell form</code>书写的<code>ENTRYPOINT</code>，其背后蕴含的逻辑是<code>/bin/sh -c "&lt;command&gt; [arg...]"</code>，造成在容器内部，该<code>&lt;command&gt;</code>的PID不为1</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/15/SRE%20vs%20DevOps/" rel="prev" title="SRE vs DevOps">
+                  <i class="fa fa-chevron-left"></i> SRE vs DevOps
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/07/20/Docker%E4%B8%AD%E7%9A%84storage%20driver/" rel="next" title="Docker中的storage driver">
+                  Docker中的storage driver <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zeke</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

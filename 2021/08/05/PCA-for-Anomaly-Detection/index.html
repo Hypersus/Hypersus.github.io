@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.zekehypersus.top","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="假设训练集和测试集均为 \(X_{n×m}\) 其中n为样本点数，m为特征维度 代码 PCA思想： PCA（Principal Components Analysis）的本质是在对数据集没有任何先验知识的前提下按照累积方差贡献率对训练集\(X_{n×m}\) 的m个特征维度进行k次线性组合（每次线性组合的系数向量\(p_i\)为(\(m \times 1\))列向量），得到共k个\(p_i\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PCA for Anomaly Detection">
+<meta property="og:url" content="https://www.zekehypersus.top/2021/08/05/PCA-for-Anomaly-Detection/index.html">
+<meta property="og:site_name" content="Zeke&#39;s Blog">
+<meta property="og:description" content="假设训练集和测试集均为 \(X_{n×m}\) 其中n为样本点数，m为特征维度 代码 PCA思想： PCA（Principal Components Analysis）的本质是在对数据集没有任何先验知识的前提下按照累积方差贡献率对训练集\(X_{n×m}\) 的m个特征维度进行k次线性组合（每次线性组合的系数向量\(p_i\)为(\(m \times 1\))列向量），得到共k个\(p_i\">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.zekehypersus.top/2021/08/05/PCA-for-Anomaly-Detection/SPE和T2统计量的物理含义.png">
+<meta property="article:published_time" content="2021-08-05T07:43:19.704Z">
+<meta property="article:modified_time" content="2021-08-31T01:58:58.803Z">
+<meta property="article:author" content="Zeke">
+<meta property="article:tag" content="None">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.zekehypersus.top/2021/08/05/PCA-for-Anomaly-Detection/SPE和T2统计量的物理含义.png">
+
+
+<link rel="canonical" href="https://www.zekehypersus.top/2021/08/05/PCA-for-Anomaly-Detection/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.zekehypersus.top/2021/08/05/PCA-for-Anomaly-Detection/","path":"2021/08/05/PCA-for-Anomaly-Detection/","title":"PCA for Anomaly Detection"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PCA for Anomaly Detection | Zeke's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zeke's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep posting!!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pca%E6%80%9D%E6%83%B3"><span class="nav-number">1.</span> <span class="nav-text">PCA思想：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pca%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">PCA步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">训练模型过程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">测试模型过程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#t2%E7%BB%9F%E8%AE%A1%E9%87%8F%E8%AE%A1%E7%AE%97%E5%92%8C%E6%8E%A7%E5%88%B6%E9%99%90%E9%80%89%E6%8B%A9"><span class="nav-number">2.3.</span> <span class="nav-text">\(T^2\)统计量计算和控制限选择：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spe%E7%BB%9F%E8%AE%A1%E9%87%8F%E8%AE%A1%E7%AE%97%E5%92%8C%E6%8E%A7%E5%88%B6%E9%99%90%E9%80%89%E6%8B%A9"><span class="nav-number">2.4.</span> <span class="nav-text">SPE统计量计算和控制限选择：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pca%E4%BC%98%E7%BC%BA%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">PCA优缺点分析：</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zeke</p>
+  <div class="site-description" itemprop="description">现实踢了梦想一脚并且让他滚蛋</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.zekehypersus.top/2021/08/05/PCA-for-Anomaly-Detection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zeke">
+      <meta itemprop="description" content="现实踢了梦想一脚并且让他滚蛋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zeke's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PCA for Anomaly Detection
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-08-05 15:43:19" itemprop="dateCreated datePublished" datetime="2021-08-05T15:43:19+08:00">2021-08-05</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-08-31 09:58:58" itemprop="dateModified" datetime="2021-08-31T09:58:58+08:00">2021-08-31</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>假设训练集和测试集均为 <span class="math inline">\(X_{n×m}\)</span> 其中n为样本点数，m为特征维度</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Hypersus/PCA-Anomaly-Detection">代码</a></p>
+<h2 id="pca思想">PCA思想：</h2>
+<p>PCA（Principal Components Analysis）的本质是在对数据集没有任何先验知识的前提下按照累积方差贡献率对训练集<span class="math inline">\(X_{n×m}\)</span> 的m个特征维度进行k次线性组合（每次线性组合的系数向量<span class="math inline">\(p_i\)</span>为(<span class="math inline">\(m \times 1\)</span>)列向量），得到共k个<span class="math inline">\(p_i\)</span>然后拿这k个列向量拼接成负载矩阵<span class="math inline">\(P_{m \times k}\)</span>，得到负载矩阵<span class="math inline">\(P\)</span>后即完成了训练过程，接下来对数据集（训练集或测试集）进行右乘<span class="math inline">\(P\)</span>矩阵的操作，将原数据集<span class="math inline">\(X_{n \times m}\)</span>降维成<span class="math inline">\(T_{n \times k}\)</span>即： $$ T_{n k}=X_{n m} P_{m k} $$ ## PCA降维后进行异常检测：</p>
+<p>PCA实际上将数据集<span class="math inline">\(X_{n×m}\)</span>在原样本<span class="math inline">\(m\)</span>维空间的数据投影到了两个空间，分别为主元空间和残差空间，其中<span class="math inline">\(T_{n \times k}\)</span>即为数据集在主元空间的投影，由于PCA在线性组合的过程中并没有常数项的加入，因此主元空间和原样本空间的原点是重合的，以<span class="math inline">\(m=3,k=2\)</span>即原样本空间为3维特征，主元空间为2维特征为例：</p>
+<p><img src="/2021/08/05/PCA-for-Anomaly-Detection/SPE和T2统计量的物理含义.png" /></p>
+于是可以得到<span class="math inline">\(T^2\)</span>统计量和<span class="math inline">\(SPE\)</span>统计量，其中<span class="math inline">\(T^2\)</span>统计量为样本点在主元空间的投影到原点的马氏距离，SPE统计量（又称Q统计量）为样本点距离主元空间的欧式距离 $$ T_{n k}=X_{n m}P_{m k}=
+<span class="math display">\[\begin{bmatrix}t_1 \\ t_2 \\ . \\ . \\ . \\ t_n \\ \end{bmatrix}\]</span>
+<p>$$</p>
+$$ E_{n m}=X_{n m}-T_{n k}P^T_{k m}=X_{n m} (I_{m m}-P_{m k}P^T_{k m})=
+<span class="math display">\[\begin{bmatrix}e_1 \\ e_2 \\ . \\ . \\ . \\ e_n \\ \end{bmatrix}\]</span>
+<p>$$ 则<span class="math inline">\(T^2\)</span>统计量和<span class="math inline">\(SPE\)</span>统计量可以表示为： $$ T^2_i=t_i t_i^T $$</p>
+<p>$$ SPE_i=e_i x_i^T=x_{1 m} (I_{m m}-P_{m k}P^T_{k m}) x_{m }^T $$</p>
+<h2 id="pca步骤">PCA步骤：</h2>
+<h3 id="训练模型过程"><strong>训练模型过程：</strong></h3>
+<p>训练PCA模型的过程可以采用特征值分解或奇异值分解（SVD）两种方式，以特征值分解为例：</p>
+<ol type="1">
+<li><p>Feature Scaling（零均值归一化）：对于每一个特征（训练集<span class="math inline">\(X_{n×m}\)</span> 的每一列），求列均值<span class="math inline">\(\bar{x}_j\)</span> 和标准差<span class="math inline">\(\sigma_j\)</span> ，对数据集中的每一个元素，执行如下操作进行Feature Scaling $$ x_{ij}=  $$</p></li>
+<li><p>计算协方差矩阵S：经过步骤1后协方差矩阵可以表示为 $$ S=  X^T_{n m}X_{n m} $$ 对协方差矩阵S进行特征值分解 $$ S=V_{m m} V^T_{m m} $$ 其中<span class="math inline">\(\land\)</span> 为对角矩阵，对角线上的值（特征值）按照从大到小排列，V为特征值对应的特征向量，<span class="math inline">\(\land\)</span> 主对角线上的值实际上就是主成分对应的方差，从大到小依次为<span class="math inline">\(\lambda_1\)</span>,<span class="math inline">\(\lambda_2\)</span>,<span class="math inline">\(\lambda_3\)</span>...<span class="math inline">\(\lambda_m\)</span>，之所以为对角阵是因为在PCA的过程中对两两投影方向之间做正交处理</p></li>
+<li><p>取特征向量构成的矩阵<span class="math inline">\(V_{m \times m}\)</span> 的前k个特征向量（k的选取和要求的累计方差贡献率有关），构成PCA的负载矩阵<span class="math inline">\(P_{m \times k}\)</span> ，则由此可以得到原数据集<span class="math inline">\(X_{n×m}\)</span> 在负载矩阵<span class="math inline">\(P_{m \times k}\)</span> 上的投影值<span class="math inline">\(X_{n×m} \cdot P_{m \times k}=T_{n \times k}\)</span> ，至此特征维度由<span class="math inline">\(m\)</span> 降低到了<span class="math inline">\(k\)</span>，实现了线性的特征降维</p></li>
+</ol>
+<h3 id="测试模型过程"><strong>测试模型过程：</strong></h3>
+<ol type="1">
+<li>对于测试集的一条新样本<span class="math inline">\(x_i\)</span> 先用训练过程中得到的均值向量<span class="math inline">\(\bar{x}_j\)</span>和标准差<span class="math inline">\(\sigma_j\)</span>进行归一化操作，具体过程和训练模型中的过程相同</li>
+<li>归一化完成后对该样本右乘负载矩阵<span class="math inline">\(P_{m \times k}\)</span> 得到PCA后的样本<span class="math inline">\(t_{1 \times k}\)</span></li>
+</ol>
+<h3 id="t2统计量计算和控制限选择"><strong><span class="math inline">\(T^2\)</span>统计量计算和控制限选择：</strong></h3>
+<p>设<span class="math inline">\(\land\)</span>的<span class="math inline">\(k\)</span>阶子矩阵为<span class="math inline">\(\sum\)</span>，则样本的<span class="math inline">\(T^2\)</span>统计量即为样本在主元空间的投影到主元空间原点的马氏距离： $$ T<sup>2=x_iPP</sup>Tx^T_i $$ 其中<span class="math inline">\(x_i\)</span>为<span class="math inline">\(1\times m\)</span>向量</p>
+<p>控制限的选取为： $$ T^2_{max}=F_{}(k,n-k) $$ 其中可以改变的量仅为置信度<span class="math inline">\(\alpha\)</span></p>
+<p>F分布的知识具体回顾概统</p>
+<h3 id="spe统计量计算和控制限选择"><strong>SPE统计量计算和控制限选择：</strong></h3>
+<p>SPE统计量是样本在残差空间内的投影（样本在原空间内的欧式距离减去样本在主元空间的欧式距离），实际上就是样本在主元空间的投影距离： $$ SPE=x_ix_i<sup>T-x_iPP</sup>Tx_i<sup>T=x_i(I-PP</sup>T)x_i^T $$ 控制限的选取为： $$ Q_=_1[+1+]^{} $$ 其中： $$ <em>r=</em>{j=k+1}^m _j^r(r=1,2,3) $$</p>
+<p>$$ h_0=1- $$</p>
+<h2 id="pca优缺点分析">PCA优缺点分析：</h2>
+<p>由于使用PCA进行的降维是基于最大化方差对原数据集进行线性组合降维，对于一些特殊的训练集可能出现线性组合降维得到的在主元空间的方差较小，按照总的方差贡献率来选取降维效果不明显，如用d00.csv作为训练集，选取90%累计方差贡献率，用SVD进行PCA，最终特征维度从52降低到了31（如果用特征值分解则主元个数为33，可见用SVD进行PCA的效果比特征值分解更加显著）。为此在线性组合的PCA基础上出现了使用核函数进行非线性投影的KPCA</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/03/CSS-note/" rel="prev" title="CSS note">
+                  <i class="fa fa-chevron-left"></i> CSS note
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/" rel="next" title="感知机">
+                  感知机 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zeke</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

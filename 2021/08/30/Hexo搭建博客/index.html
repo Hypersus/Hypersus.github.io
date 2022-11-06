@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.zekehypersus.top","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Hexo搭建博客 编辑完成的md如何导入 在已经编辑完成的md文件最顶上加入 12345---title: your own title heredate: your own time heretags:--- 注意&quot;title:&quot;和&quot;date:&quot;后面都有一个空格,&quot;tags:&quot;后面无字符 添加完成后的.md文件直接拖入到_posts文件夹中 如何添加图片 md在本地编辑完毕后（即已">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo搭建博客">
+<meta property="og:url" content="https://www.zekehypersus.top/2021/08/30/Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="Zeke&#39;s Blog">
+<meta property="og:description" content="Hexo搭建博客 编辑完成的md如何导入 在已经编辑完成的md文件最顶上加入 12345---title: your own title heredate: your own time heretags:--- 注意&quot;title:&quot;和&quot;date:&quot;后面都有一个空格,&quot;tags:&quot;后面无字符 添加完成后的.md文件直接拖入到_posts文件夹中 如何添加图片 md在本地编辑完毕后（即已">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.zekehypersus.top/img/img_folder.png">
+<meta property="og:image" content="https://www.zekehypersus.top/img/img_tag.png">
+<meta property="og:image" content="https://www.zekehypersus.top/img/public_folder.png">
+<meta property="article:published_time" content="2021-08-30T15:27:08.521Z">
+<meta property="article:modified_time" content="2022-01-23T07:29:30.813Z">
+<meta property="article:author" content="Zeke">
+<meta property="article:tag" content="None">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.zekehypersus.top/img/img_folder.png">
+
+
+<link rel="canonical" href="https://www.zekehypersus.top/2021/08/30/Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.zekehypersus.top/2021/08/30/Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/","path":"2021/08/30/Hexo搭建博客/","title":"Hexo搭建博客"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Hexo搭建博客 | Zeke's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zeke's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep posting!!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2"><span class="nav-number">1.</span> <span class="nav-text">Hexo搭建博客</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E5%AE%8C%E6%88%90%E7%9A%84md%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5"><span class="nav-number">1.1.</span> <span class="nav-text">编辑完成的md如何导入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E5%9B%BE%E7%89%87"><span class="nav-number">1.2.</span> <span class="nav-text">如何添加图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-deploy%E9%83%A8%E7%BD%B2%E6%8A%A5%E9%94%99"><span class="nav-number">1.3.</span> <span class="nav-text">hexo deploy部署报错</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%9C%A8%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E5%83%8F%E5%92%8C%E9%9F%B3%E9%A2%91"><span class="nav-number">1.4.</span> <span class="nav-text">关于在博客中插入图像和音频</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%9B%BE%E5%83%8F"><span class="nav-number">1.4.1.</span> <span class="nav-text">插入图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E9%9F%B3%E9%A2%91"><span class="nav-number">1.4.2.</span> <span class="nav-text">插入音频</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zeke</p>
+  <div class="site-description" itemprop="description">现实踢了梦想一脚并且让他滚蛋</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.zekehypersus.top/2021/08/30/Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zeke">
+      <meta itemprop="description" content="现实踢了梦想一脚并且让他滚蛋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zeke's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hexo搭建博客
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-08-30 23:27:08" itemprop="dateCreated datePublished" datetime="2021-08-30T23:27:08+08:00">2021-08-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2022-01-23 15:29:30" itemprop="dateModified" datetime="2022-01-23T15:29:30+08:00">2022-01-23</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="hexo搭建博客">Hexo搭建博客</h1>
+<h2 id="编辑完成的md如何导入">编辑完成的md如何导入</h2>
+<p>在已经编辑完成的md文件最顶上加入</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: your own title here</span><br><span class="line">date: your own time here</span><br><span class="line">tags:</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>注意"title:"和"date:"后面都有一个空格,"tags:"后面无字符</p>
+<p>添加完成后的.md文件直接拖入到_posts文件夹中</p>
+<h2 id="如何添加图片">如何添加图片</h2>
+<p>md在本地编辑完毕后（即已经添加了上述前缀）在_posts文件夹中新建一个文件夹，重命名为对应md文件的title，拖入全部图片</p>
+<p>修改md中引用图片处的url</p>
+<p><strong>此处一定要保证.md文件名，图片文件夹名称和Front matter里面的title三者一致（或用英文命名时，Front matter的title可以用空格代替-）！！！</strong></p>
+<p>格式为</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](your own title here/img.png)</span><br></pre></td></tr></table></figure>
+<p>重新执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo s</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+<p>由于缓存问题在同一个浏览器中deploy后需要过几分钟才能刷新出新的页面</p>
+<p>或者更换一个浏览器预览效果</p>
+<p><a target="_blank" rel="noopener" href="https://liolok.github.io/How-to-Add-Image-to-Hexo-Blog-Post/">参考博客</a></p>
+<h2 id="hexo-deploy部署报错">hexo deploy部署报错</h2>
+<p>code 128</p>
+<p>解决方法：</p>
+<p>删除.deploy_git文件夹后重新部署</p>
+<h2 id="关于在博客中插入图像和音频">关于在博客中插入图像和音频</h2>
+<h3 id="插入图像">插入图像</h3>
+<p>根据前述插入图像的方法，需要为每一篇博客新建一个文件夹，文件夹名字和.md名字保持一致，才可以使用markdown原生的插入图片方法即<code>![](url)</code>插入图片，这样子的插入图片方法不易于管理。</p>
+<p>替代方案为：在hexo的安装路径下的<code>blog\source\</code>目录中，新建一个img文件夹用于保存所有图片，这样子使用<code>hexo g</code>时hexo会为该img文件夹建立一个在<code>blog\public\</code>目录下的映射，于是可以使用<code>![](/img/example.png)</code>来插入图片</p>
+<p><img src="/img/img_folder.png" /></p>
+<p>cons：用这样的路径插入图片，在本地编辑md时无法预览图片也就无法知道路径是否写错</p>
+<p>pros：易于管理</p>
+<h3 id="插入音频">插入音频</h3>
+<p>以上插入图像的替代方法主要是在探索hexo中插入音频过程中发现的，在markdown中插入音频似乎只能用HTML标签，使用HTML标签插入音频的方法为<code>&lt;audio src="" controls="true"&gt;&lt;/audio&gt;</code>。和上述插入图像不同，假设存在一篇博客文件名为<em>xxxx.md</em>，当使用<code>![](xxxx/example.png)</code>插入图像，<code>hexo g</code>会在其生成的index.html中对路径进行转换，使用相对于<code>public</code>目录的相对路径来填充<code>&lt;img&gt;</code>标签中的<code>src</code>属性。</p>
+<p>具体来说，当本地md使用路径<code>![](进度1.22/Cyclegan_VC2_net.png)</code>插入图片时，对应的<code>public</code>目录下的index.html文件中的<code>&lt;img&gt;</code>标签为</p>
+<p><img src="/img/img_tag.png" /></p>
+<p>查看<code>public</code>目录的结构可以发现，路径的根目录<code>/</code>即对应<code>public</code>目录，使用该路径在本地的<code>public</code>目录中定位图片所在位置，可以找到</p>
+<p><img src="/img/public_folder.png" /></p>
+<p>至此就可以得出结论了</p>
+<p>任何保存在<em>xxxx</em>文件夹中的资源（图片/音频/视频）在<code>hexo g</code>之后都会被映射到<code>public/timestamp/xxxx</code>路径下，其中index.html对应.md文件，其余相关资源被保存在同路径下。</p>
+<p>所以如果插入音频时也像插入图像一样指定<code>src="xxxx/example.wav</code>，由于<code>hexo g</code>不会对<code>&lt;audio&gt;</code>标签中的<code>src</code>属性进行修改，所以在index.html中资源访问路径仍然是<code>xxxx/example.wav</code>，但是index.html并没有同级目录<code>xxxx</code>（有上级目录<code>xxxx</code>），所以资源访问会出错，也就找不到音频文件了。</p>
+<p><strong>解决方法：</strong></p>
+<p>在<code>source</code>路径下新建<code>audio</code>目录，把所有音频文件存放在该目录中，使用<code>src="/audio/example.wav"</code>进行资源访问</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/30/%E4%BA%AE%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%A9%BA%E9%97%B4%E6%BB%A4%E6%B3%A2/" rel="prev" title="亮度变换与空间滤波">
+                  <i class="fa fa-chevron-left"></i> 亮度变换与空间滤波
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/11/%E6%B7%B7%E5%90%88%E7%B2%BE%E5%BA%A6%E8%AE%AD%E7%BB%83/" rel="next" title="混合精度训练">
+                  混合精度训练 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zeke</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

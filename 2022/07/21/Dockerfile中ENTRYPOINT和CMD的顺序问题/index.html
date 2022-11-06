@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.zekehypersus.top","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="关于CMD Dockerfile中CMD的书写有三种形式  CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;](exec form and a preferred form) CMD [&quot;param1&quot;,&quot;param2&quot;] CMD command param1 param2(shell form)  需要注意的一点是一个Dockerfile中只可以存在一条CMD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dockerfile中ENTRYPOINT和CMD的生效顺序问题">
+<meta property="og:url" content="https://www.zekehypersus.top/2022/07/21/Dockerfile%E4%B8%ADENTRYPOINT%E5%92%8CCMD%E7%9A%84%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Zeke&#39;s Blog">
+<meta property="og:description" content="关于CMD Dockerfile中CMD的书写有三种形式  CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;](exec form and a preferred form) CMD [&quot;param1&quot;,&quot;param2&quot;] CMD command param1 param2(shell form)  需要注意的一点是一个Dockerfile中只可以存在一条CMD">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-20T16:00:59.533Z">
+<meta property="article:modified_time" content="2022-07-20T16:58:14.295Z">
+<meta property="article:author" content="Zeke">
+<meta property="article:tag" content="None">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.zekehypersus.top/2022/07/21/Dockerfile%E4%B8%ADENTRYPOINT%E5%92%8CCMD%E7%9A%84%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.zekehypersus.top/2022/07/21/Dockerfile%E4%B8%ADENTRYPOINT%E5%92%8CCMD%E7%9A%84%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/","path":"2022/07/21/Dockerfile中ENTRYPOINT和CMD的顺序问题/","title":"Dockerfile中ENTRYPOINT和CMD的生效顺序问题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Dockerfile中ENTRYPOINT和CMD的生效顺序问题 | Zeke's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zeke's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep posting!!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Ecmd"><span class="nav-number">1.</span> <span class="nav-text">关于CMD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Eentrypoint"><span class="nav-number">2.</span> <span class="nav-text">关于ENTRYPOINT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zeke</p>
+  <div class="site-description" itemprop="description">现实踢了梦想一脚并且让他滚蛋</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.zekehypersus.top/2022/07/21/Dockerfile%E4%B8%ADENTRYPOINT%E5%92%8CCMD%E7%9A%84%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zeke">
+      <meta itemprop="description" content="现实踢了梦想一脚并且让他滚蛋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zeke's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Dockerfile中ENTRYPOINT和CMD的生效顺序问题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-07-21 00:00:59 / Modified: 00:58:14" itemprop="dateCreated datePublished" datetime="2022-07-21T00:00:59+08:00">2022-07-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="关于cmd">关于CMD</h2>
+<p>Dockerfile中<code>CMD</code>的书写有三种形式</p>
+<ul>
+<li><code>CMD ["executable","param1","param2"]</code>(exec form and a <strong>preferred form</strong>)</li>
+<li><code>CMD ["param1","param2"]</code></li>
+<li><code>CMD command param1 param2</code>(shell form)</li>
+</ul>
+<p>需要注意的一点是一个Dockerfile中只可以存在一条<code>CMD</code>指令。</p>
+<p><code>CMD</code>存在的作用是提供<code>docker run</code>的缺省值，在Dockerfile中没有<code>ENTRYPOINT</code>指令，且<code>docker run [options] &lt;image&gt;</code>没有指定后续的命令时，通过<code>docker run</code>运行的容器会运行Dockerfile中由<code>CMD</code>指定的命令。</p>
+<h2 id="关于entrypoint">关于ENTRYPOINT</h2>
+<p>有两种书写形式</p>
+<ul>
+<li><code>ENTRYPOINT ["executable", "param1", "param2"]</code>（exec form）</li>
+<li><code>ENTRYPOINT command param1 param2</code>（shell form）</li>
+</ul>
+<p>:one:exec form书写时，所有跟在<code>docker run &lt;image&gt;</code>后面的参数（即[command] [arg...]）会被添加到<code>ENTRYPOINT</code>的命令之后<strong>作为该命令的参数</strong>执行且<code>CMD</code><strong>第二形式指定的参数将不再起作用</strong>。</p>
+<p>举例来讲，书写Dockerfile中内容如下时</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;top&quot;</span>, <span class="string">&quot;-b&quot;</span>]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;-c&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<p>使用<code>docker build</code>构建镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build . -t top_build:v0.0.0</span><br></pre></td></tr></table></figure>
+<p>使用<code>docker run</code>创建容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm --name <span class="built_in">test</span> top_build:v0.0.0 ps aux</span><br></pre></td></tr></table></figure>
+<p>报错信息如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top: bad pid <span class="string">&#x27;s&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>当我们在bash中执行<code>top ps</code>时，得到相同的报错信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top: bad pid <span class="string">&#x27;s&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>由此，发现这种情况下<code>docker run &lt;image&gt;</code>后面跟着的任何字符都会原模原样的被放在<code>ENRTYPOINT</code>指定的命令后面。</p>
+<p>而当我们使用以下命令创建容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -d --name <span class="built_in">test</span> top_build:v0.0.0 -H</span><br></pre></td></tr></table></figure>
+<p>并且使用<code>docker exec</code>增加一条执行命令<code>ps aux</code>时</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it <span class="built_in">test</span> ps aux</span><br></pre></td></tr></table></figure>
+<p>得到的输出为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root         1  0.0  0.0   7264  1860 ?        Ss   16:39   0:00 top -b -H</span><br><span class="line">root         6  0.0  0.0   7044  1440 pts/0    Rs+  16:41   0:00 ps aux</span><br></pre></td></tr></table></figure>
+<p>可以看到由<code>CMD</code>指定的参数被覆盖掉了</p>
+<p>:two:shell form书写时，<code>CMD</code>和<code>docker run</code>指定的参数<strong>均将失效</strong>！此外还有一点，以<code>shell form</code>书写的<code>ENTRYPOINT</code>，其背后蕴含的逻辑是<code>/bin/sh -c "&lt;command&gt; [arg...]"</code>，造成在容器内部，该<code>&lt;command&gt;</code>的PID不为1。</p>
+<p>修改Dockerfile为</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> top -b</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;-c&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<p>构建镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build . -t top_build</span><br></pre></td></tr></table></figure>
+<p>创建容器并执行<code>ps aux</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -d --name <span class="built_in">test</span> top_build -H</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it <span class="built_in">test</span> ps aux</span><br></pre></td></tr></table></figure>
+<p>得到运行结果为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root         1  0.0  0.0   2872   512 ?        Ss   16:52   0:00 /bin/sh -c top </span><br><span class="line">root         7  0.0  0.0   7164  1720 ?        S    16:52   0:00 top -b</span><br><span class="line">root         8  0.0  0.0   7044  1436 pts/0    Rs+  16:52   0:00 ps aux</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
+<p><code>ENTRYPOINT</code>指定的命令具有最高的优先级别。</p>
+<ol type="1">
+<li>以exec form指定<code>ENTRYPOINT</code>时，<code>CMD</code>就只能用来指定参数（第二种形式），且当<code>docker run &lt;image&gt;</code>后跟着的字符时，这些字符都会作为参数处理并覆盖<code>CMD</code>指定的参数</li>
+<li>以<code>shell form</code>指定<code>ENTRYPOINT</code>时，其他参数都失效</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/20/Docker%E4%B8%AD%E7%9A%84storage%20driver/" rel="prev" title="Docker中的storage driver">
+                  <i class="fa fa-chevron-left"></i> Docker中的storage driver
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/07/22/linux%E4%B8%AD%E4%B8%80%E4%BA%9B%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/" rel="next" title="linux中一些实用命令（持续更新）">
+                  linux中一些实用命令（持续更新） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zeke</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

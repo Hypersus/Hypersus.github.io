@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.zekehypersus.top","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="数据集的线性可分性： 感知机（perceptron）模型只能在特征空间中构造一个线性超平面，因此只有当数据集为线性可分时才能达到较好分类的效果，而且由于构造的是超平面，感知机只能解决二分类问题。感知机属于监督学习的范畴。  感知机学习策略： 选择\(\omega\)和\(b\)使得构造的超平面\(\omega x+b&#x3D;0\)能够较好地分开两类点，具体体现为最小化损失函数 损失函数选择：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="感知机">
+<meta property="og:url" content="https://www.zekehypersus.top/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/index.html">
+<meta property="og:site_name" content="Zeke&#39;s Blog">
+<meta property="og:description" content="数据集的线性可分性： 感知机（perceptron）模型只能在特征空间中构造一个线性超平面，因此只有当数据集为线性可分时才能达到较好分类的效果，而且由于构造的是超平面，感知机只能解决二分类问题。感知机属于监督学习的范畴。  感知机学习策略： 选择\(\omega\)和\(b\)使得构造的超平面\(\omega x+b&#x3D;0\)能够较好地分开两类点，具体体现为最小化损失函数 损失函数选择：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.zekehypersus.top/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/线性可分.png">
+<meta property="article:published_time" content="2021-08-12T12:22:32.840Z">
+<meta property="article:modified_time" content="2021-08-31T01:57:49.224Z">
+<meta property="article:author" content="Zeke">
+<meta property="article:tag" content="None">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.zekehypersus.top/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/线性可分.png">
+
+
+<link rel="canonical" href="https://www.zekehypersus.top/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.zekehypersus.top/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/","path":"2021/08/12/感知机/","title":"感知机"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>感知机 | Zeke's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zeke's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Keep posting!!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">数据集的线性可分性：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%84%9F%E7%9F%A5%E6%9C%BA%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5"><span class="nav-number">2.</span> <span class="nav-text">感知机学习策略：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%84%9F%E7%9F%A5%E6%9C%BA%E7%AE%97%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">感知机算法步骤：</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zeke</p>
+  <div class="site-description" itemprop="description">现实踢了梦想一脚并且让他滚蛋</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.zekehypersus.top/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zeke">
+      <meta itemprop="description" content="现实踢了梦想一脚并且让他滚蛋">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zeke's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          感知机
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-08-12 20:22:32" itemprop="dateCreated datePublished" datetime="2021-08-12T20:22:32+08:00">2021-08-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-08-31 09:57:49" itemprop="dateModified" datetime="2021-08-31T09:57:49+08:00">2021-08-31</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="数据集的线性可分性">数据集的线性可分性：</h2>
+<p>感知机（perceptron）模型只能在特征空间中构造一个线性超平面，因此只有当数据集为<strong>线性可分</strong>时才能达到较好分类的效果，而且由于构造的是超平面，感知机只能解决二分类问题。感知机属于监督学习的范畴。</p>
+<p><img src="/2021/08/12/%E6%84%9F%E7%9F%A5%E6%9C%BA/线性可分.png" /></p>
+<h2 id="感知机学习策略">感知机学习策略：</h2>
+<p>选择<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span>使得构造的超平面<span class="math inline">\(\omega x+b=0\)</span>能够较好地分开两类点，具体体现为最小化损失函数</p>
+<p>损失函数选择：</p>
+<ol type="1">
+<li><p>函数间距： $$ |x_0+b| $$ 当选择用函数间距作为损失函数时，感知机在优化过程中可能将<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span>等比例缩放，最终优化结果为一组很小的<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span></p></li>
+<li><p>几何间距： $$ |x_0+b| $$ 选用几何间距作为loss函数以避免使用函数间距出现的等比例缩放优化问题</p></li>
+</ol>
+<h2 id="感知机算法步骤">感知机算法步骤：</h2>
+<ol type="1">
+<li><p>任选超平面<span class="math inline">\(\omega_0\)</span>和<span class="math inline">\(b_0\)</span></p></li>
+<li><p>构造损失函数： $$ L(,b)=-_{x_i M}y_i(wx_i+b) $$ 其中M代表误分类点的集合，这里采用了函数间隔作为损失函数是因为感知机是一个误分类驱动的模型，其最终优化目标为M中没有一个点，此时则模型构建完成。因此会出现：</p></li>
+</ol>
+<ul>
+<li>对于不同的初值<span class="math inline">\(\omega_0\)</span>和<span class="math inline">\(b_0\)</span>最终迭代停止后构建出来的超平面可能不同（有不同的<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span>的终值）</li>
+<li>对于线性不可分的模型，感知机找不到一个超平面使得M中没有一个点，迭代会出现什么情况？</li>
+</ul>
+<ol start="3" type="1">
+<li><p>用梯度下降法</p>
+<p>求偏导： $$ =-_{x_i M}y_i x_i $$</p></li>
+</ol>
+<p>$$ =-_{x_i M}y_i $$</p>
+<ol start="4" type="1">
+<li><p>梯度下降： <span class="math inline">\(\omega \gets \omega+ \eta y_i x_i\)</span> <span class="math inline">\(b \gets b+ \eta y_i\)</span> 其中<span class="math inline">\(\eta\)</span>称为学习率，学习率的选择对于算法的收敛性有很大影响，<span class="math inline">\(\eta\)</span>取值过大可能造成振荡从而发散(数据集线性不可分时也会出现发散)，需要注意的是这里的梯度下降更新<span class="math inline">\(\omega\)</span>和<span class="math inline">\(b\)</span>的过程是只要对于当前的<span class="math inline">\(\omega _k\)</span>和<span class="math inline">\(b_k\)</span>存在某一个点(<span class="math inline">\(x_i , y_i\)</span>)被误分类就<strong>立即执行</strong>梯度下降更新，从而每次梯度下降更新过程不需要都遍历训练集的所有样本点</p></li>
+<li><p>感知机结果的收敛性：</p>
+<p>记<span class="math inline">\(\hat \omega=(\omega,b)\)</span> <span class="math inline">\(\hat x=(x^T,1)^T\)</span></p>
+<p>当训练集完全线性可分时存在一个超平面(<span class="math inline">\(\omega_{opt}\)</span>,<span class="math inline">\(b_{opt}\)</span>)使得所有实例被正确分类，此时存在<span class="math inline">\(\gamma\)</span>有<span class="math inline">\(\gamma=min\{y_i (\omega _{opt}x_i+b_{opt})\}\)</span></p>
+<p>令<span class="math inline">\(R=\max||\hat x_i||\)</span></p>
+<p>可以证明误分类次数k满足： $$ k()^2 $$ 因此迭代有限次就可以收敛</p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/05/PCA-for-Anomaly-Detection/" rel="prev" title="PCA for Anomaly Detection">
+                  <i class="fa fa-chevron-left"></i> PCA for Anomaly Detection
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/30/%E4%BA%AE%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%A9%BA%E9%97%B4%E6%BB%A4%E6%B3%A2/" rel="next" title="亮度变换与空间滤波">
+                  亮度变换与空间滤波 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zeke</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
